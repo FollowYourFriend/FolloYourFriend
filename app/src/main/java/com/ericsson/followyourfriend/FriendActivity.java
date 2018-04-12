@@ -17,7 +17,7 @@ public class FriendActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend);
 
-        ScrollView FriendList = (ScrollView) findViewById(R.id.FriendList);
+        //ScrollView FriendList = (ScrollView) findViewById(R.id.FriendList);
         //FriendList.
     }
 
@@ -27,6 +27,11 @@ public class FriendActivity extends AppCompatActivity {
 
     public void onClickAdd(View view) {
         Intent intent = new Intent(this,AddFriendActivity.class);
+        startActivity(intent);
+    }
+
+    public void onClickEdit(View view) {
+        Intent intent = new Intent(this,EditFriendActivity.class);
         startActivity(intent);
     }
 }

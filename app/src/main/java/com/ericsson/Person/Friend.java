@@ -1,5 +1,7 @@
 package com.ericsson.Person;
 
+import android.widget.EditText;
+
 public class Friend implements PersonIf {
     private int mNumber;
     private String mName;
@@ -12,6 +14,9 @@ public class Friend implements PersonIf {
         this.mNumber = mNumber;
         this.mName = mName;
         this.mSurrname = mSurrname;
+    }
+
+    public Friend(int phone, EditText name, EditText surrname) {
     }
 
     public int getmNumber() {

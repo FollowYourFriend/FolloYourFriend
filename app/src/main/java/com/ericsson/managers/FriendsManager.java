@@ -8,15 +8,17 @@ public class FriendsManager implements Manager {
 
     private ArrayList<Friend> mFriends;
 
+    public FriendsManager() {
+        mFriends = new ArrayList<>();
+    }
+
     public ArrayList<Friend> getmFriends() {
         return mFriends;
     }
 
-    public void setmFriends(ArrayList<Friend> mFriends) {
-        this.mFriends = mFriends;
-    }
-
-    public void addmFriends(Friend Friend) {
-        this.mFriends.add(Friend);
+    public void addmFriends(Friend Frienda) {
+        System.out.println("kopytko222");
+        this.mFriends.add(Frienda);
+        System.out.println("kopytko221");
     }
 }

@@ -39,13 +39,23 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".AddFriend"
+            android:name=".AddFriendActivity"
             android:parentActivityName=".FriendActivity">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".FriendActivity" /></activity>
+                android:value=".FriendActivity" />
+        </activity>
+        <activity
+            android:name=".EditFriendActivity">
+            android:parentActivityName=".FriendActivity">
+
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".FriendActivity" />
+        </activity>
     </application>
 
 </manifest>
