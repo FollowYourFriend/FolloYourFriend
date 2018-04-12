@@ -8,11 +8,9 @@ import android.widget.ScrollView;
 
 import java.util.ArrayList;
 
-import Person.Friend;
+import com.ericsson.Person.Friend;
 
 public class FriendActivity extends AppCompatActivity {
-
-    private ArrayList<Friend> mFriends;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +21,12 @@ public class FriendActivity extends AppCompatActivity {
         //FriendList.
     }
 
+    public void addFriendToList() {
+
+    }
+
     public void onClickAdd(View view) {
-        Intent intent = new Intent(this,AddFriend.class);
+        Intent intent = new Intent(this,AddFriendActivity.class);
         startActivity(intent);
     }
 }

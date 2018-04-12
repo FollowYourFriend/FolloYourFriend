@@ -1,4 +1,4 @@
-package Person;
+package com.ericsson.Person;
 
 public class Friend implements PersonIf {
     private int mNumber;
