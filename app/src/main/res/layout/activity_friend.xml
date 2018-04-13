@@ -28,6 +28,7 @@
         android:layout_marginBottom="24dp"
         android:layout_marginStart="32dp"
         android:background="@color/colorPrimary"
+        android:onClick="onClickImport"
         android:text="Import"
         android:textAppearance="@android:style/TextAppearance.Large"
         android:textColor="@android:color/background_light"
