@@ -26,7 +26,7 @@ public class DebugActivity extends AppCompatActivity {
         TelephonyManager telephonyManager;
         telephonyManager = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
 
-        // Here, thisActivity is the current activity
+        /*// Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(DebugActivity.this,
                 Manifest.permission.READ_PHONE_NUMBERS)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -178,7 +178,7 @@ public class DebugActivity extends AppCompatActivity {
             System.exit(0);
 
             return;
-        }
+        }*/
 
 
         // Acquire a reference to the system Location Manager

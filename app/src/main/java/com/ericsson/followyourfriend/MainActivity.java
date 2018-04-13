@@ -1,22 +1,19 @@
 package com.ericsson.followyourfriend;
 
-import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.telephony.CellInfo;
-import android.telephony.TelephonyManager;
 import android.view.View;
-import android.widget.TextView;
+
 
 import com.ericsson.managers.GlobalManager;
+import com.ericsson.managers.ManagerEnum;
+import com.ericsson.managers.PermissionManager;
+
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.READ_CONTACTS;
+import static android.Manifest.permission.WRITE_CONTACTS;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -26,6 +23,11 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         GlobalManager.getInstance().init();
+
+        PermissionManager permissionManager = (PermissionManager) GlobalManager.getInstance().GetManager(ManagerEnum.PERMISSIONMANAGER);
+        permissionManager.requestForPermission(new String[] {ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION},this);
+        permissionManager.checkIfAllNeededPermissionsAreGranted(new String[] {ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION},this);
+
         setContentView(R.layout.activity_main);
     }
 
@@ -35,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickFriend(View view) {
+        /*PermissionManager permissionManager = (PermissionManager) GlobalManager.getInstance().GetManager(ManagerEnum.PERMISSIONMANAGER);
+        permissionManager.requestForPermission(new String[] {READ_CONTACTS, WRITE_CONTACTS},this);
+        permissionManager.checkIfAllNeededPermissionsAreGranted(new String[] {READ_CONTACTS, WRITE_CONTACTS},this);*/
+
         Intent intent = new Intent(this,FriendActivity.class);
         startActivity(intent);
     }
