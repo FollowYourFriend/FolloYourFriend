@@ -9,7 +9,7 @@ public class Friend implements PersonIf {
     private double mLatitude;
     private VisibilityStatus mStatus;
 
-    public Friend(int mNumber, String mNamee) {
+    public Friend(int mNumber, String mName) {
         this.mNumber = mNumber;
         this.mName = mName;
     }
