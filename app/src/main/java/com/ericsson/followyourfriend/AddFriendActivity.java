@@ -26,17 +26,13 @@ public class AddFriendActivity extends AppCompatActivity {
     public void onClickAddFriend(View view) {
 
 
-        FriendsManager m = (FriendsManager) GlobalManager.GetManager(ManagerEnum.FRIENDMANAGER);
+        FriendsManager m = (FriendsManager) GlobalManager.getInstance().GetManager(ManagerEnum.FRIENDMANAGER);
 
         EditText name = findViewById (id.name);
-        EditText surrname = findViewById (id.surrname);
         EditText phone = findViewById (id.phone);
-        Friend f = new Friend(Integer.parseInt(phone.getText().toString()), name.getText().toString(), surrname.getText().toString());
-        if(m != null){
-            System.out.println("kopytko");
-            m.addmFriends(f);}
-        else
-            System.out.println("kopytko2");
+        Friend f = new Friend(Integer.parseInt(phone.getText().toString()), name.getText().toString());
+
+        m.addmFriends(f);
 
         Intent intent = new Intent(this,FriendActivity.class);
         startActivity(intent);

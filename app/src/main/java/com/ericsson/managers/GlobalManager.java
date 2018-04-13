@@ -2,7 +2,7 @@ package com.ericsson.managers;
 
 public class GlobalManager {
 
-    static FriendsManager mFriendManager;
+    private FriendsManager mFriendManager;
 
     private static final GlobalManager ourInstance = new GlobalManager();
 
@@ -13,11 +13,11 @@ public class GlobalManager {
     private GlobalManager() {
     }
 
-    public static void Init() {
+    public boolean init() {
         mFriendManager = new FriendsManager();
+        return true;
     }
-
-    public static Manager GetManager(ManagerEnum manager) {
+    public  Manager GetManager(ManagerEnum manager) {
         Manager temp = null;
         switch (manager) {
             case FRIENDMANAGER:

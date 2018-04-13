@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        GlobalManager.Init();
+        GlobalManager.getInstance().init();
         setContentView(R.layout.activity_main);
     }
 

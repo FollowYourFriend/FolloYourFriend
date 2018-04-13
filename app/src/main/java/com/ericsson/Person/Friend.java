@@ -5,15 +5,13 @@ import android.widget.EditText;
 public class Friend implements PersonIf {
     private int mNumber;
     private String mName;
-    private String mSurrname;
     private double mLongitude;
     private double mLatitude;
     private VisibilityStatus mStatus;
 
-    public Friend(int mNumber, String mName, String mSurrname) {
+    public Friend(int mNumber, String mNamee) {
         this.mNumber = mNumber;
         this.mName = mName;
-        this.mSurrname = mSurrname;
     }
 
     public Friend(int phone, EditText name, EditText surrname) {
@@ -33,14 +31,6 @@ public class Friend implements PersonIf {
 
     public void setmName(String mName) {
         this.mName = mName;
-    }
-
-    public String getmSurrname() {
-        return mSurrname;
-    }
-
-    public void setmSurrname(String mSurrname) {
-        this.mSurrname = mSurrname;
     }
 
     public double getmLongitude() {

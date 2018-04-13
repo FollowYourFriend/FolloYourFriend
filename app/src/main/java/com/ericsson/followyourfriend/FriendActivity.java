@@ -11,11 +11,15 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ScrollView;
 
 import java.util.ArrayList;
 
 import com.ericsson.Person.Friend;
+import com.ericsson.managers.FriendsManager;
+import com.ericsson.managers.GlobalManager;
+import com.ericsson.managers.ManagerEnum;
 
 import static android.provider.ContactsContract.*;
 
@@ -45,13 +49,16 @@ public class FriendActivity extends AppCompatActivity {
     }
 
     public void onClickImport(View view) {
-        
+        FriendsManager m = (FriendsManager) GlobalManager.getInstance().GetManager(ManagerEnum.FRIENDMANAGER);
+
         Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null,null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME+" ASC");
         while (phones.moveToNext())
         {
             String name=phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
             String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 
+            Friend f = new Friend(Integer.parseInt(phoneNumber), name);
+            m.addmFriends(f);
             System.out.println(name + "   " + phoneNumber);
         }
         phones.close();
