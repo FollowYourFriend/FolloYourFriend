@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">FollowYourFriend</string>
+    <string name="google_android_map_api_key">AIzaSyBkxK9OVkK-0dOq7xBXkxgdAFeCgW89OWI</string>
 </resources>

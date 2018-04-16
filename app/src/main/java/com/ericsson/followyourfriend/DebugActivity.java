@@ -7,6 +7,9 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,10 +20,24 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ericsson.Person.Friend;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.Map;
 
-public class DebugActivity extends AppCompatActivity {
+public class DebugActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+    MapFragment mMapFragment;
+    double mLatitude = 52.06516;
+    double mLongitude = 19.25252;
+    private Marker mMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +45,7 @@ public class DebugActivity extends AppCompatActivity {
         setContentView(R.layout.activity_debug);
         final TextView text = (TextView) findViewById(R.id.textView);
         TextView text2 = (TextView) findViewById(R.id.text2);
+
 
 
         //ListView use
@@ -38,7 +56,6 @@ public class DebugActivity extends AppCompatActivity {
             friendsArray.add(new Friend(60040304, "Jez Jerzy"));
         }
 
-
         TestAdapter adapter = new TestAdapter(this,friendsArray);
 
         ListView listView = (ListView) findViewById(R.id.friendsList);
@@ -46,8 +63,19 @@ public class DebugActivity extends AppCompatActivity {
 
 
 
+        //MapView use
+        mMapFragment = MapFragment.newInstance();
+        android.app.FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.add(0,mMapFragment);
+        fragmentTransaction.commit();
+
+        MapFragment mapFragment = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
 
+
+        //Location
         TelephonyManager telephonyManager;
         telephonyManager = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
 
@@ -57,6 +85,9 @@ public class DebugActivity extends AppCompatActivity {
         // Define a listener that responds to location updates
         LocationListener locationListener = new LocationListener() {
             public void onLocationChanged(Location location) {
+                mLatitude = location.getLatitude();
+                mLongitude = location.getLongitude();
+                mMarker.setPosition(new LatLng(mLatitude,mLongitude));
                 // Called when a new location is found by the network location provider.
                 String temp = new String();
                 temp += location.getProvider();
@@ -98,6 +129,17 @@ public class DebugActivity extends AppCompatActivity {
 
             //text.setText(result);
         }
+
+
+        //Client Server interactions
         (new Thread(new Task(text2))).start();
+
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMarker = googleMap.addMarker(new MarkerOptions()
+            .position(new LatLng(mLatitude,mLongitude))
+            .title("Marker"));
     }
 }
