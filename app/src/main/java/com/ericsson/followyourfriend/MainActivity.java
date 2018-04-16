@@ -1,6 +1,9 @@
 package com.ericsson.followyourfriend;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +17,7 @@ import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.READ_CONTACTS;
 import static android.Manifest.permission.WRITE_CONTACTS;
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -26,9 +30,14 @@ public class MainActivity extends AppCompatActivity {
 
         PermissionManager permissionManager = (PermissionManager) GlobalManager.getInstance().GetManager(ManagerEnum.PERMISSIONMANAGER);
         permissionManager.requestForPermission(new String[] {ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION},this);
-        permissionManager.checkIfAllNeededPermissionsAreGranted(new String[] {ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION},this);
 
         setContentView(R.layout.activity_main);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        PermissionManager permissionManager = (PermissionManager) GlobalManager.getInstance().GetManager(ManagerEnum.PERMISSIONMANAGER);
+        permissionManager.killActivityIfPermissionIsNotGranted(grantResults);
     }
 
     public void onClickDebug(View view) {
@@ -37,10 +46,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickFriend(View view) {
-        /*PermissionManager permissionManager = (PermissionManager) GlobalManager.getInstance().GetManager(ManagerEnum.PERMISSIONMANAGER);
-        permissionManager.requestForPermission(new String[] {READ_CONTACTS, WRITE_CONTACTS},this);
-        permissionManager.checkIfAllNeededPermissionsAreGranted(new String[] {READ_CONTACTS, WRITE_CONTACTS},this);*/
-
         Intent intent = new Intent(this,FriendActivity.class);
         startActivity(intent);
     }

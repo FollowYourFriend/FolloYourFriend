@@ -2,34 +2,49 @@ package com.ericsson.managers;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+
 public class PermissionManager implements Manager {
+
+    Activity mActivity = null;
 
     public void requestForPermission(String[] permissions, Activity activity)
     {
+        mActivity = activity;
+
         for(String permission : permissions) {
-            if (!isPermissionGranted(permission, activity)) {
-                ActivityCompat.requestPermissions(activity,
+            if (!isPermissionGranted(permission)) {
+                ActivityCompat.requestPermissions(mActivity,
                         new String[]{permission},
                         1);
             }
         }
     }
 
-    public void checkIfAllNeededPermissionsAreGranted(String[] mandatoryPermissions, Activity activity)
+    public boolean isPermissionGranted(String permission)
     {
-        for(String permission : mandatoryPermissions)
-        {
-            if(!isPermissionGranted(permission,activity))
-                System.exit(0);
-        }
+        return ContextCompat.checkSelfPermission(mActivity,
+                permission) == PERMISSION_GRANTED;
     }
 
-    public boolean isPermissionGranted(String permission, Activity activity)
+    public void killActivityIfPermissionIsNotGranted(int[] grantResults)
     {
-        return ContextCompat.checkSelfPermission(activity,
-                permission) == PackageManager.PERMISSION_GRANTED;
+        if(!checkResult(grantResults))
+            mActivity.finish();
     }
+
+    private boolean checkResult(int[] grantResults)
+    {
+        for(int result: grantResults)
+        {
+            if(result != PERMISSION_GRANTED)
+                return false;
+        }
+        return true;
+    }
+
 }
