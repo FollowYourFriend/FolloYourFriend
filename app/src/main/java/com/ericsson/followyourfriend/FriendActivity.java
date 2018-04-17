@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ScrollView;
 
+import java.io.Console;
 import java.util.ArrayList;
 
 import com.ericsson.Person.Friend;
@@ -36,18 +37,7 @@ public class FriendActivity extends AppCompatActivity implements ActivityCompat.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend);
 
-        //ScrollView FriendList = (ScrollView) findViewById(R.id.FriendList);
-        //FriendList.
-
         FriendsManager m = (FriendsManager) GlobalManager.getInstance().GetManager(ManagerEnum.FRIENDMANAGER);
-        //ListView use
-        //ArrayList<Friend> friendsArray = m.getFriends();
-        /*for(int i = 0; i < 10; i++)
-        {
-            friendsArray.add(new Friend(12344311, "Roman Romanowicz"));
-            friendsArray.add(new Friend(60040304, "Jez Jerzy"));
-        }*/
-
 
         TestAdapter adapter = new TestAdapter(this,m.getFriends());
 
@@ -93,12 +83,19 @@ public class FriendActivity extends AppCompatActivity implements ActivityCompat.
             String name=phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
             String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 
-            Friend f = new Friend(Integer.parseInt(phoneNumber), name);
-            if(m.checkIfFriendNumberIsAlreadyOnList(f) == true){
-                System.out.println(name + "   " + phoneNumber);
+            if(phoneNumber.contains("+48")){
+                phoneNumber = phoneNumber.replaceAll("^[+0-9]{3}", "");
             }
-            else{
-                m.addmFriends(f);
+            phoneNumber = phoneNumber.replaceAll("-", "");
+            phoneNumber = phoneNumber.replaceAll(" ", "");
+            if(!phoneNumber.equals("")) {
+                System.out.println("   phone:" + phoneNumber + ":   name:" + name + ":");
+                Friend f = new Friend(Integer.parseInt(phoneNumber), name);
+                if (m.checkIfFriendNumberIsAlreadyOnList(f) == true) {
+                    System.out.println(name + "   " + phoneNumber);
+                } else {
+                    m.addmFriends(f);
+                }
             }
         }
 
