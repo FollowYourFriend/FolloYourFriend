@@ -24,7 +24,7 @@ public class AddFriendActivity extends AppCompatActivity {
     }
 
     public void onClickAddFriend(View view) {
-        Intent intentAlreadyExist = new Intent(this,friendAlreadyExistActivity.class);
+
 
 
         FriendsManager m = (FriendsManager) GlobalManager.getInstance().GetManager(ManagerEnum.FRIENDMANAGER);
@@ -34,14 +34,14 @@ public class AddFriendActivity extends AppCompatActivity {
         Friend f = new Friend(Integer.parseInt(phone.getText().toString()), name.getText().toString());
 
         if(m.checkIfFriendNumberIsAlreadyOnList(f) == true){
+            Intent intentAlreadyExist = new Intent(this,friendAlreadyExistActivity.class);
             startActivity(intentAlreadyExist);
+            System.out.println(" Jestem tu!!!  ");
         }
         else{
             m.addmFriends(f);
+            Intent intent = new Intent(this,FriendActivity.class);
+            startActivity(intent);
         }
-
-
-        Intent intent = new Intent(this,FriendActivity.class);
-        startActivity(intent);
     }
 }

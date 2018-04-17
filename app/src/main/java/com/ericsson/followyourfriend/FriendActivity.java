@@ -94,8 +94,12 @@ public class FriendActivity extends AppCompatActivity implements ActivityCompat.
             String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 
             Friend f = new Friend(Integer.parseInt(phoneNumber), name);
-            m.addmFriends(f);
-            System.out.println(name + "   " + phoneNumber);
+            if(m.checkIfFriendNumberIsAlreadyOnList(f) == true){
+                System.out.println(name + "   " + phoneNumber);
+            }
+            else{
+                m.addmFriends(f);
+            }
         }
 
         TestAdapter adapter = new TestAdapter(this,m.getFriends());

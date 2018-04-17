@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         FriendsManager friendsManager = (FriendsManager) GlobalManager.getInstance().GetManager(FRIENDMANAGER);
-        for(Friend friend: friendsManager.getmFriends())
+        for(Friend friend: friendsManager.getFriends())
         {
             friend.setmMarker(googleMap.addMarker(new MarkerOptions()
                     .position(new LatLng(friend.getmLatitude(),friend.getmLongitude()))
