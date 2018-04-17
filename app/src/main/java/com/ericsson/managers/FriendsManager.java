@@ -12,13 +12,21 @@ public class FriendsManager implements Manager {
         mFriends = new ArrayList<>();
     }
 
-    public ArrayList<Friend> getmFriends() {
+    public ArrayList<Friend> getFriends() {
         return mFriends;
     }
 
     public void addmFriends(Friend Frienda) {
-        System.out.println("kopytko222");
         this.mFriends.add(Frienda);
-        System.out.println("kopytko221");
+    }
+
+    public boolean checkIfFriendNumberIsAlreadyOnList(Friend FriendB) {
+        boolean isOnList = false;
+        for(Friend temp : mFriends){
+            if(FriendB.getmNumber() == temp.getmNumber()) {
+                isOnList = true;
+            }
+        }
+        return isOnList;
     }
 }

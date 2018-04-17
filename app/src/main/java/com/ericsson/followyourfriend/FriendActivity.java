@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.ScrollView;
 
 import java.util.ArrayList;
@@ -37,6 +38,23 @@ public class FriendActivity extends AppCompatActivity implements ActivityCompat.
 
         //ScrollView FriendList = (ScrollView) findViewById(R.id.FriendList);
         //FriendList.
+
+        FriendsManager m = (FriendsManager) GlobalManager.getInstance().GetManager(ManagerEnum.FRIENDMANAGER);
+        //ListView use
+        //ArrayList<Friend> friendsArray = m.getFriends();
+        /*for(int i = 0; i < 10; i++)
+        {
+            friendsArray.add(new Friend(12344311, "Roman Romanowicz"));
+            friendsArray.add(new Friend(60040304, "Jez Jerzy"));
+        }*/
+
+
+        TestAdapter adapter = new TestAdapter(this,m.getFriends());
+
+        ListView listView = (ListView) findViewById(R.id.firendListFriend);
+        listView.setAdapter(adapter);
+
+
     }
 
     @Override
@@ -79,6 +97,12 @@ public class FriendActivity extends AppCompatActivity implements ActivityCompat.
             m.addmFriends(f);
             System.out.println(name + "   " + phoneNumber);
         }
+
+        TestAdapter adapter = new TestAdapter(this,m.getFriends());
+
+        ListView listView = (ListView) findViewById(R.id.firendListFriend);
+        listView.setAdapter(adapter);
+
         phones.close();
     }
 }
