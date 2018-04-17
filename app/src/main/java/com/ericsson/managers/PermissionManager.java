@@ -31,12 +31,6 @@ public class PermissionManager implements Manager {
                 permission) == PERMISSION_GRANTED;
     }
 
-    public void killActivityIfPermissionIsNotGranted(int[] grantResults)
-    {
-        if(!checkResult(grantResults))
-            mActivity.finish();
-    }
-
     private boolean checkResult(int[] grantResults)
     {
         for(int result: grantResults)

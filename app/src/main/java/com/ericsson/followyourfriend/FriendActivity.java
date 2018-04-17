@@ -39,7 +39,7 @@ public class FriendActivity extends AppCompatActivity implements ActivityCompat.
 
         FriendsManager m = (FriendsManager) GlobalManager.getInstance().GetManager(ManagerEnum.FRIENDMANAGER);
 
-        TestAdapter adapter = new TestAdapter(this,m.getFriends());
+        TestAdapter adapter = new TestAdapter(this, m.getFriends());
 
         ListView listView = (ListView) findViewById(R.id.firendListFriend);
         listView.setAdapter(adapter);
@@ -59,36 +59,35 @@ public class FriendActivity extends AppCompatActivity implements ActivityCompat.
     }
 
     public void onClickAdd(View view) {
-        Intent intent = new Intent(this,AddFriendActivity.class);
+        Intent intent = new Intent(this, AddFriendActivity.class);
         startActivity(intent);
     }
 
     public void onClickEdit(View view) {
-        Intent intent = new Intent(this,EditFriendActivity.class);
+        Intent intent = new Intent(this, EditFriendActivity.class);
         startActivity(intent);
     }
 
     public void onClickImport(View view) {
         PermissionManager permissionManager = (PermissionManager) GlobalManager.getInstance().GetManager(ManagerEnum.PERMISSIONMANAGER);
-        permissionManager.requestForPermission(new String[] {READ_CONTACTS, WRITE_CONTACTS},this);
+        permissionManager.requestForPermission(new String[]{READ_CONTACTS, WRITE_CONTACTS}, this);
 
-        if(!permissionManager.isPermissionGranted(READ_CONTACTS) && !permissionManager.isPermissionGranted(WRITE_CONTACTS))
+        if (!permissionManager.isPermissionGranted(READ_CONTACTS) && !permissionManager.isPermissionGranted(WRITE_CONTACTS))
             System.exit(0);
 
         FriendsManager m = (FriendsManager) GlobalManager.getInstance().GetManager(ManagerEnum.FRIENDMANAGER);
 
-        Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null,null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME+" ASC");
-        while (phones.moveToNext())
-        {
-            String name=phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+        Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
+        while (phones.moveToNext()) {
+            String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
             String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 
-            if(phoneNumber.contains("+48")){
+            if (phoneNumber.contains("+48")) {
                 phoneNumber = phoneNumber.replaceAll("^[+0-9]{3}", "");
             }
             phoneNumber = phoneNumber.replaceAll("-", "");
             phoneNumber = phoneNumber.replaceAll(" ", "");
-            if(!phoneNumber.equals("")) {
+            if (!phoneNumber.equals("")) {
                 System.out.println("   phone:" + phoneNumber + ":   name:" + name + ":");
                 Friend f = new Friend(Integer.parseInt(phoneNumber), name);
                 if (m.checkIfFriendNumberIsAlreadyOnList(f) == true) {
@@ -97,13 +96,12 @@ public class FriendActivity extends AppCompatActivity implements ActivityCompat.
                     m.addmFriends(f);
                 }
             }
+            TestAdapter adapter = new TestAdapter(this, m.getFriends());
+
+            ListView listView = (ListView) findViewById(R.id.firendListFriend);
+            listView.setAdapter(adapter);
+
+            phones.close();
         }
-
-        TestAdapter adapter = new TestAdapter(this,m.getFriends());
-
-        ListView listView = (ListView) findViewById(R.id.firendListFriend);
-        listView.setAdapter(adapter);
-
-        phones.close();
     }
 }
