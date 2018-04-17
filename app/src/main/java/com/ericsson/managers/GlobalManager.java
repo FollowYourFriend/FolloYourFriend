@@ -24,8 +24,10 @@ public class GlobalManager {
         switch (manager) {
             case FRIENDMANAGER:
                 temp = mFriendManager;
+                break;
             case PERMISSIONMANAGER:
                 temp = mPermissionManager;
+                break;
         }
         return temp;
     }

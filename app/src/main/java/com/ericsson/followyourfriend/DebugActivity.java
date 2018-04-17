@@ -34,7 +34,6 @@ import java.util.Map;
 
 public class DebugActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    MapFragment mMapFragment;
     double mLatitude = 52.06516;
     double mLongitude = 19.25252;
     private Marker mMarker;
@@ -64,14 +63,14 @@ public class DebugActivity extends AppCompatActivity implements OnMapReadyCallba
 
 
         //MapView use
-        mMapFragment = MapFragment.newInstance();
+        /*MapFragment mMapFragment = MapFragment.newInstance();
         android.app.FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.add(0,mMapFragment);
         fragmentTransaction.commit();
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        mapFragment.getMapAsync(this);*/
 
 
 
@@ -139,7 +138,7 @@ public class DebugActivity extends AppCompatActivity implements OnMapReadyCallba
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMarker = googleMap.addMarker(new MarkerOptions()
-            .position(new LatLng(mLatitude,mLongitude))
-            .title("Marker"));
+                .position(new LatLng(mLatitude,mLongitude))
+                .title("Marker Marker 600293912"));
     }
 }
