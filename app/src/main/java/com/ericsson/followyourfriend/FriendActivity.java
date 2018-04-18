@@ -80,13 +80,11 @@ public class FriendActivity extends AppCompatActivity implements ActivityCompat.
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         SharedPreferences.Editor edit = prefs.edit();
         edit.putString(getString(R.string.position_selected_friend), Integer.toString(i));
-        System.out.println("\nPozycja do zapisu:"+ Integer.toString(i));
         edit.commit();
     }
 
     private String getPosition(){
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        System.out.println("\nPozycja:"+ prefs.getString(getString(R.string.position_selected_friend), ""));
         return prefs.getString(getString(R.string.position_selected_friend), "");
     }
 
@@ -100,12 +98,14 @@ public class FriendActivity extends AppCompatActivity implements ActivityCompat.
     public void onClickAdd(View view) {
         Intent intent = new Intent(this,AddFriendActivity.class);
         startActivity(intent);
+        finish();
     }
 
     public void onClickEdit(View view) {
         if(Integer.parseInt(getPosition()) != 999) {
             Intent intent = new Intent(this, EditFriendActivity.class);
             startActivity(intent);
+            finish();
         }
     }
 

@@ -41,7 +41,9 @@ public class EditFriendActivity extends AppCompatActivity {
 
     public void onClickUpdate(View view) throws IOException {
         ArrayList<Friend> temp = m.getFriends();
-        if(Integer.parseInt(getPosition()) != 999)
+        if(Integer.parseInt(getPosition()) != 999){
+
+
             temp.get(Integer.parseInt(getPosition())).setmName(name.getText().toString());
 
         System.out.println("\nNAME:"+temp.get(Integer.parseInt(getPosition())).getmName());
@@ -51,6 +53,8 @@ public class EditFriendActivity extends AppCompatActivity {
         setPosition(999);
         Intent intent = new Intent(this,FriendActivity.class);
         startActivity(intent);
+        finish();
+        }
     }
 
     private void setPosition(int i){

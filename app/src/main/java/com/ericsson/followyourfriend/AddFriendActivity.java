@@ -41,14 +41,18 @@ public class AddFriendActivity extends AppCompatActivity {
 
         EditText name = findViewById (id.name);
         EditText phone = findViewById (id.phone);
-        if((!phone.getText().toString().equals("")) && (!name.getText().toString().equals(""))) {
-            Friend f = new Friend(Integer.parseInt(phone.getText().toString()), name.getText().toString());
-            System.out.println("\nWszedłem\n");
+        String correctedPhone = phone.getText().toString().replaceAll(" ", "");
+        correctedPhone = correctedPhone.replaceAll("-", "");
+        correctedPhone = correctedPhone.replaceAll("-", "");
+        if(correctedPhone.contains("+48")){
+            correctedPhone = correctedPhone.replaceAll("^[+0-9]{3}", "");
+        }
+        if((!correctedPhone.equals("")) && (!name.getText().toString().equals(""))) {
+            Friend f = new Friend(Integer.parseInt(correctedPhone), name.getText().toString());
 
             if (m.checkIfFriendNumberIsAlreadyOnList(f) == true) {
                 Intent intentAlreadyExist = new Intent(this, friendAlreadyExistActivity.class);
                 startActivity(intentAlreadyExist);
-                System.out.println(" Jestem tu!!!  ");
             } else {
                 outputStream.write(Integer.toString(f.getmNumber()).getBytes());
                 outputStream.write(separator.getBytes());
@@ -58,6 +62,7 @@ public class AddFriendActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, FriendActivity.class);
                 startActivity(intent);
             }
+            finish();
         }
     }
 }
