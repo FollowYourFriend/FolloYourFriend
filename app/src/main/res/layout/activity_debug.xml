@@ -10,7 +10,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="18dp"
-        android:layout_marginBottom="36dp"
+        android:layout_marginBottom="64dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:text="TextView"
@@ -36,7 +36,7 @@
     <ListView
         android:id="@+id/friendsList"
         android:layout_width="373dp"
-        android:layout_height="231dp"
+        android:layout_height="189dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"

@@ -3,6 +3,7 @@ package com.ericsson.followyourfriend;
 import android.util.Log;
 import android.widget.TextView;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -32,15 +33,15 @@ public class Task implements Runnable {
             //Sending message to server
             JSONObject jsonObject = new JSONObject();
             JSONObject reqJson = new JSONObject();
-            jsonObject.put("ID", "791460336");
-            jsonObject.put("visibility", "0");
-            jsonObject.put("lat", "52.2324");
-            jsonObject.put("long", "19.123124");
-            reqJson.put("req",jsonObject);
+            jsonObject.put("Id", "791460336");
+            jsonObject.put("Vis", "0");
+            jsonObject.put("Lat", "52.2324");
+            jsonObject.put("Lon", "19.123124");
+            reqJson.put("Req",jsonObject);
 
             DataOutputStream os = null;
             os = new DataOutputStream(s.getOutputStream());
-            os.writeBytes(jsonObject.toString()+ "\n");
+            os.writeBytes(reqJson.toString() + "\n");
 
             //Receiving message from server
             BufferedReader input =
@@ -48,8 +49,10 @@ public class Task implements Runnable {
             answer = input.readLine();
             text.setText((CharSequence) answer);
 
+            JSONArray jsonFriend;
+
             //os.close();
-            input.close();
+            //input.close();
 
 
             /*DataInputStream is = null;
