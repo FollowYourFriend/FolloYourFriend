@@ -1,5 +1,7 @@
 package com.ericsson.managers;
 
+import android.widget.ArrayAdapter;
+
 import com.ericsson.Person.Friend;
 
 import java.util.ArrayList;
@@ -28,5 +30,9 @@ public class FriendsManager implements Manager {
             }
         }
         return isOnList;
+    }
+
+    public void setFriends(ArrayList<Friend> list){
+        mFriends = list;
     }
 }

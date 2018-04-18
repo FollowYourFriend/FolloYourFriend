@@ -1,22 +1,24 @@
 package com.ericsson.followyourfriend;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.ericsson.Person.Friend;
 
 import java.util.ArrayList;
 
-public class TestAdapter extends BaseAdapter {
+public class TestAdapter extends ArrayAdapter<Friend> {
     private Context mContext;
     private LayoutInflater mInflater;
     private ArrayList<Friend> mFriends;
 
     public TestAdapter(Context context, ArrayList<Friend> items) {
+        super(context, R.layout.item);
         mContext = context;
         mFriends = items;
         mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -28,7 +30,7 @@ public class TestAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int i) {
+    public Friend getItem(int i) {
         return mFriends.get(i);
     }
 
