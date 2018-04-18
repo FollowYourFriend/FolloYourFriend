@@ -1,6 +1,7 @@
 package com.ericsson.managers;
 
 import com.ericsson.Person.Friend;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
@@ -29,4 +30,18 @@ public class FriendsManager implements Manager {
         }
         return isOnList;
     }
+
+    public Friend getFriend(int phoneNr) {
+        for(Friend friend: mFriends) {
+            if(friend.getmNumber() == phoneNr)
+                return friend;
+        }
+
+        return null;
+    }
+
+    public void setFriends(ArrayList<Friend> list){
+        mFriends = list;
+    }
+
 }

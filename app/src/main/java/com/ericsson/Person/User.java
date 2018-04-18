@@ -12,6 +12,8 @@ public class User implements PersonIf {
     private String mName;
     private String mPhoneNr = "";
 
+    private boolean isLocationValid = false;
+
     private static final User ourInstance = new User();
 
     public static User getInstance() { return ourInstance; }
@@ -37,5 +39,11 @@ public class User implements PersonIf {
     public void setmPhoneNr(String phoneNr) { mPhoneNr = phoneNr; }
 
 
+    public void setLocationValid(boolean locationValid) {
+        isLocationValid = locationValid;
+    }
 
+    public boolean isLocationValid() {
+        return isLocationValid;
+    }
 }

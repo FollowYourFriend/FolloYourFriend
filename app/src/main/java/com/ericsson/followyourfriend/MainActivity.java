@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -15,6 +17,7 @@ import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 
 import com.ericsson.Person.Friend;
@@ -33,10 +36,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -54,6 +62,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     File file;
     FileInputStream inputStream;
     String separator = ":";
+    AtomicReference<JSONObject> json = new AtomicReference<>();
+    AtomicBoolean atomicBooleanMain = new AtomicBoolean(false);
+    AtomicBoolean atomicBooleanTask = new AtomicBoolean(true);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             initLocation();
         }
 
-        FriendsManager m = (FriendsManager) GlobalManager.getInstance().GetManager(ManagerEnum.FRIENDMANAGER);
+        final FriendsManager m = (FriendsManager) GlobalManager.getInstance().GetManager(ManagerEnum.FRIENDMANAGER);
         int i;
         char a;
 
@@ -115,7 +126,66 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         }
 
+        //TODO: refactoring
+        // Create the Handler
+        final Handler handler = new Handler();
+        final TextView text2 = (TextView) findViewById(R.id.textView5);
+        Thread task = new Thread(new Task(json, atomicBooleanMain, atomicBooleanTask));
+        task.start();
+
+        // Define the code block to be executed
+        Thread t = new Thread() {
+            public void run() {
+                // Insert custom code here
+
+
+                while(true)
+                {
+                    if(atomicBooleanMain.get() == false)
+                        continue;
+                    else{
+                        atomicBooleanMain.set(false);
+                        if (json != null) {
+
+                            try {
+                                Thread.sleep(1000);
+                                int phoneNr = Integer.valueOf(json.get().getString("Id"));
+                                Friend friend = m.getFriend(phoneNr);
+                                if(friend != null)
+                                {
+                                    updateFriend(friend);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        atomicBooleanTask.set(true);
+                    }
+
+                }
+            }
+        };
+        t.start();
+
     }
+
+    private void updateFriend(Friend friend) throws JSONException {
+        friend.setmLatitude(Double.valueOf(json.get().getString("Lat")));
+        friend.setmLongitude(Double.valueOf(json.get().getString("Lon")));
+        /*if(friend.getmMarker() != null) {
+            friend.getmMarker().setPosition(new LatLng(friend.getmLatitude(), friend.getmLongitude()));
+            String status = json.get().getString("Vis");
+            friend.setmStatus(status.equals("0") ? VisibilityStatus.VISIBLE : status.equals("1") ? VisibilityStatus.INVISIBLE : VisibilityStatus.NOT_REGISTERED);
+            if (status.equals("0") && friend.getmMarker().isVisible() == false)
+                friend.getmMarker().setVisible(true);
+            else if (!status.equals("0"))
+                friend.getmMarker().setVisible(false);
+        }*/
+    }
+
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -210,6 +280,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 if(!User.getInstance().getmMarker().isVisible())
                     User.getInstance().getmMarker().setVisible(true);
+
+                if(!User.getInstance().isLocationValid())
+                    User.getInstance().setLocationValid(true);
             }
 
             public void onStatusChanged(String provider, int status, Bundle extras) {}

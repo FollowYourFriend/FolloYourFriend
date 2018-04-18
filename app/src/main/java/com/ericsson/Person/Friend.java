@@ -2,7 +2,10 @@ package com.ericsson.Person;
 
 import android.widget.EditText;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Friend implements PersonIf {
     private int mNumber;
@@ -10,7 +13,7 @@ public class Friend implements PersonIf {
     private double mLongitude;
     private double mLatitude;
     private VisibilityStatus mStatus;
-    private Marker mMarker = null;
+    private AtomicReference<Marker> mMarker = new AtomicReference<>();
 
     public Friend(int mNumber, String mName) {
         this.mNumber = mNumber;
@@ -60,7 +63,7 @@ public class Friend implements PersonIf {
         this.mStatus = mStatus;
     }
 
-    public Marker getmMarker() { return mMarker; }
+    public Marker getmMarker() { return mMarker.get(); }
 
-    public void setmMarker(Marker mMarker) { this.mMarker = mMarker; }
+    public void setmMarker(Marker mMarker) { this.mMarker.set(mMarker); }
 }

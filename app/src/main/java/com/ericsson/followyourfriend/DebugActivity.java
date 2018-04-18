@@ -139,7 +139,7 @@ public class DebugActivity extends AppCompatActivity implements OnMapReadyCallba
 
 
         //Client Server interactions
-        (new Thread(new Task(text2))).start();
+        //(new Thread(new Task(text2))).start();
 
 
         text3.setText(User.getInstance().getmPhoneNr() + " " + User.getInstance().getmName());
