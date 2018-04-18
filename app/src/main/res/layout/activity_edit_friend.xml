@@ -44,8 +44,8 @@
         android:onClick="onClickUpdate"
         android:text="Update"
         android:textAppearance="@android:style/TextAppearance.Large"
+        android:textColor="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:textColor="@android:color/background_light" />
+        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>
