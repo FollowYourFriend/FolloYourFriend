@@ -33,6 +33,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.READ_CONTACTS;
@@ -43,6 +48,12 @@ import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_BLUE
 
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+    String filename = "userData";
+    String temp = "";
+    File file;
+    FileInputStream inputStream;
+    String separator = ":";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +82,37 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             initUserData();
             initMap();
             initLocation();
+        }
+
+        FriendsManager m = (FriendsManager) GlobalManager.getInstance().GetManager(ManagerEnum.FRIENDMANAGER);
+        int i;
+        char a;
+
+        file = new File(getApplicationContext().getFilesDir(), filename);
+        try {
+            inputStream = openFileInput(filename);
+            while((i = inputStream.read())!=-1) {
+                // converts integer to character
+                a = (char)i;
+
+                // prints character
+                System.out.print(a);
+                temp = temp + a;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String[] split1 = temp.split(separator);
+        int j = 0;
+
+        if(split1.length > 1){
+            while(j < split1.length){
+                m.getFriends().add(new Friend(Integer.parseInt(split1[j]),split1[j+1]));
+                j = j + 2;
+            }
         }
 
     }
