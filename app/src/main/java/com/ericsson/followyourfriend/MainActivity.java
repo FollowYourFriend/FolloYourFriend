@@ -66,6 +66,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     AtomicBoolean atomicBooleanMain = new AtomicBoolean(false);
     AtomicBoolean atomicBooleanTask = new AtomicBoolean(true);
 
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            try {
+                updateFriend(((FriendsManager) GlobalManager.getInstance().GetManager(FRIENDMANAGER)).getFriend(msg.getData().getInt("Num")));
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,7 +139,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //TODO: refactoring
         // Create the Handler
-        final Handler handler = new Handler();
         final TextView text2 = (TextView) findViewById(R.id.textView5);
         Thread task = new Thread(new Task(json, atomicBooleanMain, atomicBooleanTask));
         task.start();
@@ -153,7 +163,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 Friend friend = m.getFriend(phoneNr);
                                 if(friend != null)
                                 {
-                                    updateFriend(friend);
+                                    Message msg = handler.obtainMessage();
+                                    Bundle bundle = new Bundle();
+                                    bundle.putInt("Num",friend.getmNumber());
+                                    msg.setData(bundle);
+                                    handler.sendMessage(msg);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -174,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void updateFriend(Friend friend) throws JSONException {
         friend.setmLatitude(Double.valueOf(json.get().getString("Lat")));
         friend.setmLongitude(Double.valueOf(json.get().getString("Lon")));
-        /*if(friend.getmMarker() != null) {
+        if(friend.getmMarker() != null) {
             friend.getmMarker().setPosition(new LatLng(friend.getmLatitude(), friend.getmLongitude()));
             String status = json.get().getString("Vis");
             friend.setmStatus(status.equals("0") ? VisibilityStatus.VISIBLE : status.equals("1") ? VisibilityStatus.INVISIBLE : VisibilityStatus.NOT_REGISTERED);
@@ -182,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 friend.getmMarker().setVisible(true);
             else if (!status.equals("0"))
                 friend.getmMarker().setVisible(false);
-        }*/
+        }
     }
 
 

@@ -68,10 +68,12 @@ public class Task implements Runnable {
                             new BufferedReader(new InputStreamReader(s.getInputStream()));
                     answer = input.readLine();
 
+                    System.out.println("\n"+answer+"\n");
+
                     if(answer != null){
                         JSONObject jsonMessage = new JSONObject(answer);
                         JSONArray jsonArray = jsonMessage.getJSONArray("Update_Cfm");
-                        JSONObject object = jsonArray.getJSONObject(0);
+                        JSONObject object = jsonArray.getJSONObject(1);
                         json.set(object);
                     }
                     atomicBooleanMain.set(true);
