@@ -40,7 +40,7 @@ public class Task implements Runnable {
 
             DataOutputStream os = null;
             os = new DataOutputStream(s.getOutputStream());
-            os.writeBytes(jsonObject.toString()+ "\n");
+            os.writeBytes("kakao"+ "\n");
 
             //Receiving message from server
             BufferedReader input =

@@ -52,7 +52,6 @@ public class FriendActivity extends AppCompatActivity implements ActivityCompat.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend);
-
         friendsManager = (FriendsManager) GlobalManager.getInstance().GetManager(ManagerEnum.FRIENDMANAGER);
         createListView();
         setPosition(999);
@@ -104,8 +103,10 @@ public class FriendActivity extends AppCompatActivity implements ActivityCompat.
     }
 
     public void onClickEdit(View view) {
-        Intent intent = new Intent(this,EditFriendActivity.class);
-        startActivity(intent);
+        if(Integer.parseInt(getPosition()) != 999) {
+            Intent intent = new Intent(this, EditFriendActivity.class);
+            startActivity(intent);
+        }
     }
 
     private void saveFriendsToFile(ArrayList<Friend> friends) throws IOException {

@@ -41,21 +41,23 @@ public class AddFriendActivity extends AppCompatActivity {
 
         EditText name = findViewById (id.name);
         EditText phone = findViewById (id.phone);
-        Friend f = new Friend(Integer.parseInt(phone.getText().toString()), name.getText().toString());
+        if((!phone.getText().toString().equals("")) && (!name.getText().toString().equals(""))) {
+            Friend f = new Friend(Integer.parseInt(phone.getText().toString()), name.getText().toString());
+            System.out.println("\nWszedłem\n");
 
-        if(m.checkIfFriendNumberIsAlreadyOnList(f) == true){
-            Intent intentAlreadyExist = new Intent(this,friendAlreadyExistActivity.class);
-            startActivity(intentAlreadyExist);
-            System.out.println(" Jestem tu!!!  ");
-        }
-        else{
-            outputStream.write(Integer.toString(f.getmNumber()).getBytes());
-            outputStream.write(separator.getBytes());
-            outputStream.write(f.getmName().getBytes());
-            outputStream.write(separator.getBytes());
-            m.addmFriends(f);
-            Intent intent = new Intent(this,FriendActivity.class);
-            startActivity(intent);
+            if (m.checkIfFriendNumberIsAlreadyOnList(f) == true) {
+                Intent intentAlreadyExist = new Intent(this, friendAlreadyExistActivity.class);
+                startActivity(intentAlreadyExist);
+                System.out.println(" Jestem tu!!!  ");
+            } else {
+                outputStream.write(Integer.toString(f.getmNumber()).getBytes());
+                outputStream.write(separator.getBytes());
+                outputStream.write(f.getmName().getBytes());
+                outputStream.write(separator.getBytes());
+                m.addmFriends(f);
+                Intent intent = new Intent(this, FriendActivity.class);
+                startActivity(intent);
+            }
         }
     }
 }
