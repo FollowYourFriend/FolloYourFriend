@@ -218,14 +218,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         FriendsManager friendsManager = (FriendsManager) GlobalManager.getInstance().GetManager(FRIENDMANAGER);
         for(Friend friend: friendsManager.getFriends())
         {
-            if(friend.getmStatus() != VisibilityStatus.NOT_REGISTERED) {
+            //if(friend.getmStatus() != VisibilityStatus.NOT_REGISTERED) {
                 friend.setmMarker(googleMap.addMarker(new MarkerOptions()
                         .position(new LatLng(friend.getmLatitude(), friend.getmLongitude()))
                         .title(new String(friend.getmName()) + " " + String.valueOf(friend.getmNumber()))));
 
                 if(friend.getmStatus() == VisibilityStatus.INVISIBLE)
                     friend.getmMarker().setVisible(false);
-            }
+            //}
         }
     }
 
