@@ -36,6 +36,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     File file;
     FileInputStream inputStream;
     String separator = ":";
-    AtomicReference<JSONObject> json = new AtomicReference<>();
+    AtomicReference<JSONArray> json = new AtomicReference<>();
     AtomicBoolean atomicBooleanMain = new AtomicBoolean(false);
     AtomicBoolean atomicBooleanTask = new AtomicBoolean(true);
 
@@ -70,7 +71,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         @Override
         public void handleMessage(Message msg) {
             try {
-                updateFriend(((FriendsManager) GlobalManager.getInstance().GetManager(FRIENDMANAGER)).getFriend(msg.getData().getInt("Num")));
+                JSONObject jsonObject = new JSONObject(msg.getData().getString("jsonObject"));
+                updateFriend(((FriendsManager) GlobalManager.getInstance().GetManager(FRIENDMANAGER)).getFriend(msg.getData().getInt("Num")), jsonObject);
             }catch (Exception e) {
                 e.printStackTrace();
             }
@@ -138,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         //TODO: refactoring
-        // Create the Handler
+        // New thread
         final TextView text2 = (TextView) findViewById(R.id.textView5);
         Thread task = new Thread(new Task(json, atomicBooleanMain, atomicBooleanTask));
         task.start();
@@ -159,15 +161,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                             try {
                                 Thread.sleep(1000);
-                                int phoneNr = Integer.valueOf(json.get().getString("Id"));
-                                Friend friend = m.getFriend(phoneNr);
-                                if(friend != null)
-                                {
-                                    Message msg = handler.obtainMessage();
-                                    Bundle bundle = new Bundle();
-                                    bundle.putInt("Num",friend.getmNumber());
-                                    msg.setData(bundle);
-                                    handler.sendMessage(msg);
+                                for(int i = 0; i < json.get().length(); i++) {
+                                    JSONObject object = json.get().getJSONObject(i);
+                                    int phoneNr = Integer.valueOf(object.getString("Id"));
+                                    Friend friend = m.getFriend(phoneNr);
+                                    if (friend != null) {
+                                        Message msg = handler.obtainMessage();
+                                        Bundle bundle = new Bundle();
+                                        bundle.putInt("Num", friend.getmNumber());
+                                        bundle.putString("jsonObject",object.toString());
+                                        msg.setData(bundle);
+                                        handler.sendMessage(msg);
+                                    }
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -185,12 +190,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    private void updateFriend(Friend friend) throws JSONException {
-        friend.setmLatitude(Double.valueOf(json.get().getString("Lat")));
-        friend.setmLongitude(Double.valueOf(json.get().getString("Lon")));
+    private void updateFriend(Friend friend, JSONObject json) throws JSONException {
+        friend.setmLatitude(Double.valueOf(json.getString("Lat")));
+        friend.setmLongitude(Double.valueOf(json.getString("Lon")));
         if(friend.getmMarker() != null) {
             friend.getmMarker().setPosition(new LatLng(friend.getmLatitude(), friend.getmLongitude()));
-            String status = json.get().getString("Vis");
+            String status = json.getString("Vis");
             friend.setmStatus(status.equals("0") ? VisibilityStatus.VISIBLE : status.equals("1") ? VisibilityStatus.INVISIBLE : VisibilityStatus.NOT_REGISTERED);
             if (status.equals("0") && friend.getmMarker().isVisible() == false)
                 friend.getmMarker().setVisible(true);
@@ -217,7 +222,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             if(friend.getmStatus() != VisibilityStatus.NOT_REGISTERED) {
                 friend.setmMarker(googleMap.addMarker(new MarkerOptions()
                         .position(new LatLng(friend.getmLatitude(), friend.getmLongitude()))
-                        .title(friend.getmName())));
+                        .title(new String(friend.getmName()) + " " + String.valueOf(friend.getmNumber()))));
+
+                if(friend.getmStatus() == VisibilityStatus.INVISIBLE)
+                    friend.getmMarker().setVisible(false);
             }
         }
     }
@@ -257,11 +265,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             phoneNr = tMgr.getLine1Number();
 
         int minNrLength = 5;
-        if(phoneNr.length() >= minNrLength){
-            User.getInstance().setmPhoneNr(phoneNr);
-        //get IMSI nr
-        //User.getInstance().setmPhoneNr(tMgr.getSubscriberId());
-        }
+//        if(phoneNr.length() >= minNrLength){
+//            User.getInstance().setmPhoneNr(phoneNr);
+//        //get IMSI nr
+//        //User.getInstance().setmPhoneNr(tMgr.getSubscriberId());
+//        }
 
         return true;
     }
@@ -290,6 +298,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 // Called when a new location is found by the network location provider.
                 if(User.getInstance().getmMarker() != null) {
                     User.getInstance().getmMarker().setPosition(new LatLng(location.getLatitude(),location.getLongitude()));
+                    User.getInstance().setmLatitude(location.getLatitude());
+                    User.getInstance().setmLongitude(location.getLongitude());
                 }
 
                 if(!User.getInstance().getmMarker().isVisible())

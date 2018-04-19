@@ -11,6 +11,9 @@ public class User implements PersonIf {
     private Marker mMarker = null;
     private String mName;
     private String mPhoneNr = "";
+    private String mVisibility = "0";
+    private double mLatitude = 0;
+    private double mLongitude = 0;
 
     private boolean isLocationValid = false;
 
@@ -45,5 +48,25 @@ public class User implements PersonIf {
 
     public boolean isLocationValid() {
         return isLocationValid;
+    }
+
+    public String getmVisibility() {
+        return mVisibility;
+    }
+
+    public double getmLatitude() {
+        return mLatitude;
+    }
+
+    public void setmLatitude(double mLatitude) {
+        this.mLatitude = mLatitude;
+    }
+
+    public double getmLongitude() {
+        return mLongitude;
+    }
+
+    public void setmLongitude(double mLongitude) {
+        this.mLongitude = mLongitude;
     }
 }

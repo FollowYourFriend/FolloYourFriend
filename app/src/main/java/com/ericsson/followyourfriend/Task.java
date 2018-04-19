@@ -4,6 +4,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.ericsson.Person.Friend;
+import com.ericsson.Person.User;
 import com.ericsson.Person.VisibilityStatus;
 import com.ericsson.managers.FriendsManager;
 import com.ericsson.managers.GlobalManager;
@@ -27,14 +28,14 @@ import java.util.concurrent.locks.Lock;
 
 public class Task implements Runnable {
 
-    Task(AtomicReference<JSONObject> json, AtomicBoolean atM, AtomicBoolean atT) {
+    Task(AtomicReference<JSONArray> json, AtomicBoolean atM, AtomicBoolean atT) {
         this.json = json;
         atomicBooleanMain = atM;
         atomicBooleanTask = atT;
     }
 
     public String answer = new String();
-    AtomicReference<JSONObject> json ;
+    AtomicReference<JSONArray> json ;
     public AtomicBoolean atomicBooleanMain;
     public AtomicBoolean atomicBooleanTask;
 
@@ -53,10 +54,10 @@ public class Task implements Runnable {
                     //Sending message to server
                     JSONObject jsonObject = new JSONObject();
                     JSONObject reqJson = new JSONObject();
-                    jsonObject.put("Id", "667770894");
-                    jsonObject.put("Vis", "0");
-                    jsonObject.put("Lat", "52.27");
-                    jsonObject.put("Lon", "19.13");
+                    jsonObject.put("Id", User.getInstance().getmPhoneNr());
+                    jsonObject.put("Vis", User.getInstance().getmVisibility());
+                    jsonObject.put("Lat", Double.valueOf(User.getInstance().getmLatitude()));
+                    jsonObject.put("Lon", Double.valueOf(User.getInstance().getmLongitude()));
                     reqJson.put("Update_Req", jsonObject);
 
                     DataOutputStream os = null;
@@ -73,8 +74,7 @@ public class Task implements Runnable {
                     if(answer != null){
                         JSONObject jsonMessage = new JSONObject(answer);
                         JSONArray jsonArray = jsonMessage.getJSONArray("Update_Cfm");
-                        JSONObject object = jsonArray.getJSONObject(1);
-                        json.set(object);
+                        json.set(jsonArray);
                     }
                     atomicBooleanMain.set(true);
                 }
