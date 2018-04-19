@@ -141,7 +141,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //TODO: refactoring
         // New thread
-        final TextView text2 = (TextView) findViewById(R.id.textView5);
         Thread task = new Thread(new Task(json, atomicBooleanMain, atomicBooleanTask));
         task.start();
 
@@ -243,10 +242,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         initLocation();
     }
 
-    public void onClickDebug(View view) {
+    /*public void onClickDebug(View view) {
         Intent intent = new Intent(this,DebugActivity.class);
         startActivity(intent);
-    }
+    }*/
 
     public void onClickFriend(View view) {
         Intent intent = new Intent(this,FriendActivity.class);
