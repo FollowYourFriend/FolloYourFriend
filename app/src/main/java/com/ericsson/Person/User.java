@@ -6,6 +6,8 @@ import android.telephony.TelephonyManager;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
+import static com.ericsson.Person.VisibilityStatus.INVISIBLE;
+
 public class User implements PersonIf {
 
     private Marker mMarker = null;
@@ -52,6 +54,20 @@ public class User implements PersonIf {
 
     public String getmVisibility() {
         return mVisibility;
+    }
+
+    public void setmVisibility(VisibilityStatus status) {
+        switch (status) {
+            case VISIBLE:
+                mVisibility = "0";
+                break;
+            case INVISIBLE:
+                mVisibility = "1";
+                break;
+            case NOT_REGISTERED:
+                mVisibility = "2";
+                break;
+        }
     }
 
     public double getmLatitude() {

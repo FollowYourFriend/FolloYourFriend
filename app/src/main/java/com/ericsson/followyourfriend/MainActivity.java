@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -17,6 +18,7 @@ import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -159,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         if (json != null) {
 
                             try {
-                                Thread.sleep(1000);
+                                Thread.sleep(5000);
                                 for(int i = 0; i < json.get().length(); i++) {
                                     JSONObject object = json.get().getJSONObject(i);
                                     int phoneNr = Integer.valueOf(object.getString("Id"));
@@ -247,6 +249,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         startActivity(intent);
     }*/
 
+    public void onClickStatus(View view) {
+        Button button = (Button) findViewById(R.id.Status);
+
+        if(User.getInstance().getmVisibility().equals("0")) {
+            User.getInstance().setmVisibility(VisibilityStatus.INVISIBLE);
+            button.setBackgroundColor(Color.RED);
+            button.setText("Invisible");
+        } else if (User.getInstance().getmVisibility().equals("1")) {
+            User.getInstance().setmVisibility(VisibilityStatus.VISIBLE);
+            button.setBackgroundColor(Color.GREEN);
+            button.setText("Visible");
+        }
+
+        System.out.println(User.getInstance().getmVisibility());
+    }
+
     public void onClickFriend(View view) {
         Intent intent = new Intent(this,FriendActivity.class);
         startActivity(intent);
@@ -269,6 +287,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        //get IMSI nr
 //        //User.getInstance().setmPhoneNr(tMgr.getSubscriberId());
 //        }
+        Button button = (Button) findViewById(R.id.Status);
+        button.setBackgroundColor(Color.GREEN);
+        button.setText("Visible");
 
         return true;
     }
