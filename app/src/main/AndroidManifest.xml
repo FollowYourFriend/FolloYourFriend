@@ -29,58 +29,23 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_android_map_api_key" />
         <activity
-            android:name=".DebugActivity"
-            android:parentActivityName=".MainActivity">
-
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+            android:name=".DebugActivity">
         </activity>
         <activity
-            android:name=".FriendActivity"
-            android:parentActivityName=".MainActivity">
-
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+            android:name=".FriendActivity">
         </activity>
         <activity
-            android:name=".AddFriendActivity"
-            android:parentActivityName=".FriendActivity">
-
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".FriendActivity" />
+            android:name=".AddFriendActivity">
         </activity>
         <activity
             android:name=".EditFriendActivity">
-            android:parentActivityName=".FriendActivity">
-
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".FriendActivity" />
         </activity>
         <activity
-            android:name=".friendAlreadyExistActivity"
-            android:parentActivityName=".FriendActivity">
-
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".FriendActivity" />
+            android:name=".friendAlreadyExistActivity">
         </activity>
         <activity
             android:name=".AskPhoneNr">
-            android:parentActivityName=".FriendActivity">
 
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
         </activity>
     </application>
 

@@ -18,7 +18,7 @@ public class Friend implements PersonIf {
     public Friend(int mNumber, String mName) {
         this.mNumber = mNumber;
         this.mName = mName;
-        this.mStatus = VisibilityStatus.INVISIBLE;
+        this.mStatus = VisibilityStatus.NOT_REGISTERED;
     }
 
     public Friend(int phone, EditText name, EditText surrname) {

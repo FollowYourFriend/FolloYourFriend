@@ -1,5 +1,7 @@
 package com.ericsson.managers;
 
+import android.widget.ArrayAdapter;
+
 import com.ericsson.Person.Friend;
 import com.google.android.gms.maps.model.LatLng;
 
